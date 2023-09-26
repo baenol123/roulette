@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>랜덤뽑기</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+    }
+
+    #container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 3px;
+      border: none;
+    }
+
+    button {
+        display:block; /* 버튼을 블록 요소로 설정하여 가로 폭을 꽉 채우도록 합니다. */
+        width:auto; /* 버튼의 가로 크기를 내용에 맞게 자동으로 조정합니다. */
+        margin-top:.5rem; /* 버튼 위쪽 여백을 조금 추가합니다. */
+        padding:.5rem .75rem; /* 내부 여백을 설정합니다. */
+        font-size:.875rem; /* 폰트 크기를 설정합니다. */
+        line-height:normal; /* 줄 간격을 기본값으로 설정합니다. */
+        text-align:center; /* 텍스트 정렬 방식을 가운데 정렬로 설정합니다. */
+        vertical-align:.middle; /* 수직 정렬 방식을 중앙 정렬로 설정합니다.*/
+          background-color:#007bff;/* 배경색상은 파란색(#007bff)으로 지정합니다.*/
+          border-color:#007bff;/* 테두리 색상은 파란색(#007bff)으로 지정합니다.*/
+          color:#fff;/* 글자 색상은 흰색(#fff)으로 지정합니다.*/
+          cursor:pointer;/* 커서 모양을 포인터(pointer)로 변경하여 클릭 가능한 상태임을 나타냅니다.*/
+          border-radius:.25rem;/* 경계선의 모서리 반경 값을 조절하여 둥근 모서리를 생성합니다.*/
+        }
+
+        button:hover{
+              background-color:#0069d9;/* 마우스가 버튼 위에 있으면 배경색상이 진한 파란색(#0069d9)으로 변경됩니다.*/
+              border-color:#0062cc;/* 마우스가 버튼 위에 있으면 테두리 색상이 진한 파란색(#0062cc)으로 변경됩니다.*/
+              color:white;/* 마우스가 버튼 위에 있으면 글자 색상이 흰색(#fff)으로 변경됩니다.*/
+        }
+
+        button:focus{
+              box-shadow:none !important;/* 포커스 스타일링에서 박스 그림자를 제거하기 위해 필요한 스타일입니다.(중요도(!important))*/
+        }
+
+       button:not(:disabled):not(.disabled).active,
+       button:not(:disabled):not(.disabled):active{
+             background-color:#0056b3!important;;/* 클릭된 상태에서 배경색상이 진한 파란색(#0056b3)으로 유지되도록 합니다.(중요도(!important))*/
+             border-color:#004da8!important;;/* 클릭된 상태에서 테두리 색상이 진한 파란색(#004da8)으로 유지되도록 합니다.(중요도(!important))*/
+             color:white!important;;/* 클릭된 상태에서 글자 색상이 흰색(#fff)으로 유지되도록 합니다.(중요도(!important))*/
+           }
+           
+           p#result {
+             font-size:x-large;// 결과 이름의 폰트 크기를 크게 지정하였습니다.
+             margin-top:.5em;// 결과 이름과 입력 필드 사이의 간격입니다.
+             text-align:center;// 결과 이름의 가운데 정렬입니다.
+           }
+    
+         @keyframes colorChange {
+            from {color:black;}
+            to {color:green;}
+         }
+    
+         @keyframes sizeChange {
+            from {font-size:normal;}
+            to {font-size:x-large;}
+         }
+    
+         div#result.bingglebinggle{
+            animation-name:sizeChange,colorChange;// 애니메이션 명칭들(sizeChange와 colorChange)
+            animation-duration:.5s;// 애니메이션 동작 시간
+            animation-timing-function:cubic-bezier(1,-0.65,.45,.99);// 애니메이션 타임 함수
+            animation-iteration-count : infinite;// 반복횟수(infinite : 무한)
+         }
+  
+         div#result.resultColor{
+           color:green !important;;
+           animation-name:none !important;;
+           font-size:x-large !important;;
+         }
+   .resultColor{
+     color:green;
+   }
+   </style>
+
+</head>
+
+<body>
+<div id="container">
+<p id="result">?</p>
+<input type="text" id="nameListInput" placeholder="랜덤뽑기를 할 요소들을 쉼표로 구분하여 적어주세요."/>
+<button onclick="pickRandomName()">뽑기</button>
+
+<script>
+
+function pickRandomName(){
+  
+var input=document.getElementById('nameListInput').value;
+
+var names=input.split(',');
+
+var randomIndex=Math.floor(Math.random()*names.length);
+
+var randomName=names[randomIndex].trim();
+
+//뽑기 애니메이션 이펙트
+
+for(let i=0; i<names.length; i++){
+  
+document.getElementById('result').className = "bingglebinggle";
+setTimeout(function() {
+  
+  var effectNames=Math.floor(Math.random()*names.length);
+var effect=names[effectNames].trim();
+document.getElementById('result').innerText=effect;
+
+if(i === names.length -1){
+          
+setTimeout(function() {
+
+document.getElementById('result').innerText = randomName;
+document.getElementById('result').className = "resultColor";
+
+},500); // 최종 결과가 표시되기 전에 충분한 시간 동안 이전 이름이 보여지도록 합니다.
+}
+
+},i *100); // 각 이름은 원래보다 조금 더 긴 시간 동안 보여집니다.
+}
+}
+</script>
+
+</div>
+
+
+</body>
+
+</html>
